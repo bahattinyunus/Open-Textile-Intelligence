@@ -37,3 +37,6 @@ STATE_NAMES = {
     SystemState.SCANNING_SIMULATION: "SİMÜLASYON DEVAM EDİYOR",
     SystemState.SCANNING_CAMERA: "KAMERA TARANIYOR"
 }
+
+# Frame to yards conversion (matches simulation: 0.5 yards/frame)
+YARDS_PER_FRAME = 0.5

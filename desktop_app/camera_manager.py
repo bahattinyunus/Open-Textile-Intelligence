@@ -10,6 +10,7 @@ import numpy as np
 import time
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtGui import QImage
+from constants import YARDS_PER_FRAME
 
 
 class CameraManager(QThread):
@@ -26,6 +27,7 @@ class CameraManager(QThread):
     scanning_progress = Signal(int)  # Progress percentage (0-100)
     scan_complete = Signal()         # Scan finished
     camera_opened = Signal(bool)     # Camera opened successfully
+    stats_update = Signal(dict)      # Real-time statistics (matches simulation)
 
     def __init__(self, camera_index=0, duration_seconds=10, ml_pipeline=None):
         """
@@ -42,6 +44,7 @@ class CameraManager(QThread):
         self.is_running = False
         self.cap = None
         self.frame_count = 0
+        self.clean_frame_count = 0  # Frames without defects
 
         # ML Pipeline
         self.ml_pipeline = ml_pipeline
@@ -151,6 +154,9 @@ class CameraManager(QThread):
                 # Emit detection result if defect found
                 if detection_result["is_defective"]:
                     self.frame_analyzed.emit(detection_result)
+                else:
+                    # Track clean frames for efficiency
+                    self.clean_frame_count += 1
 
             # Calculate FPS
             fps_frames += 1
@@ -165,10 +171,30 @@ class CameraManager(QThread):
             progress = min(int((elapsed_time / self.duration_seconds) * 100), 100)
             self.scanning_progress.emit(progress)
 
+            # Emit statistics update (matches simulation pattern)
+            scanned_yards = self.frame_count * YARDS_PER_FRAME
+            efficiency = int((self.clean_frame_count / self.frame_count) * 100) if self.frame_count > 0 else 100
+
+            self.stats_update.emit({
+                'scanned_yards': scanned_yards,
+                'defects_found': self.frame_count - self.clean_frame_count,
+                'efficiency': efficiency
+            })
+
             # Control frame rate (avoid overwhelming CPU)
             time.sleep(0.033)  # ~30 FPS
 
         # Cleanup
+        # Emit final statistics
+        if self.frame_count > 0:
+            scanned_yards = self.frame_count * YARDS_PER_FRAME
+            efficiency = int((self.clean_frame_count / self.frame_count) * 100)
+            self.stats_update.emit({
+                'scanned_yards': scanned_yards,
+                'defects_found': self.frame_count - self.clean_frame_count,
+                'efficiency': efficiency
+            })
+
         self.scanning_progress.emit(100)  # Ensure 100% at end
         self.release_camera()
         self.scan_complete.emit()

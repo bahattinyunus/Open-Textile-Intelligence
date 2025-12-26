@@ -22,39 +22,63 @@ from constants import ScanMode, SystemState, MODE_NAMES, STATE_NAMES
 
 
 class MetricCard(QFrame):
-    """Custom widget for displaying metrics."""
+    """
+    Modern Windows 11 style metric card.
+    Displays title, value, and optional unit with proper spacing.
+    """
 
     def __init__(self, title, value="0", unit="", parent=None):
         super().__init__(parent)
         self.setObjectName("metricCard")
 
+        # Main layout with generous padding
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(10, 10, 10, 10)
-        layout.setSpacing(3)
+        layout.setContentsMargins(20, 20, 20, 20)  # Windows 11 standard padding
+        layout.setSpacing(8)  # Proper spacing between elements
+        layout.setAlignment(Qt.AlignTop)
 
-        # Title
-        self.title_label = QLabel(title)
+        # Title - subtle, clean text
+        # Remove emojis and newlines, keep text clean
+        clean_title = title.replace('\n', ' ').replace('📏', '').replace('⚠️', '').replace('✅', '').replace('🧵', '').replace('🔄', '').strip()
+        self.title_label = QLabel(clean_title)
         self.title_label.setObjectName("metricTitle")
         self.title_label.setWordWrap(True)
+        self.title_label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
         layout.addWidget(self.title_label)
 
-        # Value
+        # Spacer between title and value
+        layout.addSpacing(4)
+
+        # Value - large and prominent
         self.value_label = QLabel(value)
         self.value_label.setObjectName("metricValue")
+        self.value_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         layout.addWidget(self.value_label)
 
-        # Unit
+        # Unit - subtle, below value
         if unit:
             self.unit_label = QLabel(unit)
-            self.unit_label.setObjectName("metricDelta")
+            self.unit_label.setObjectName("metricUnit")
+            self.unit_label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
             layout.addWidget(self.unit_label)
+        else:
+            self.unit_label = None
 
-        self.setMinimumHeight(80)
-        self.setMaximumHeight(120)
+        # Add stretch to push content to top
+        layout.addStretch()
+
+        # Windows 11 standard card dimensions
+        self.setMinimumHeight(120)
+        self.setMinimumWidth(180)
 
     def set_value(self, value):
         """Update metric value."""
         self.value_label.setText(str(value))
+
+    def set_unit(self, unit):
+        """Update unit label if it exists."""
+        if self.unit_label:
+            self.unit_label.setText(unit)
 
 
 class MainWindow(QMainWindow):
@@ -423,7 +447,6 @@ class MainWindow(QMainWindow):
 
         # Status bar
         self.statusBar().showMessage("Sistem hazır. Mod seçin ve taramayı başlatın.")
-        self.statusBar().setStyleSheet("color: #95a5a6; background-color: #2c2c2c; padding: 4px;")
 
     def initialize_ml_pipeline(self):
         """
@@ -459,46 +482,67 @@ class MainWindow(QMainWindow):
 
         except ImportError as e:
             self.ml_available = False
+
+            # Determine which package is missing
+            missing_module = str(e).split("'")[1] if "'" in str(e) else "PyTorch"
+
             error_msg = (
-                f"❌ ML modülleri yüklenemedi: {e}\n\n"
-                "GEREKLI PAKETLER:\n"
-                "pip install torch torchvision\n\n"
-                "Kamera modu devre dışı bırakıldı."
+                f"PyTorch Machine Learning Framework Gerekli\n\n"
+                f"Eksik modül: {missing_module}\n\n"
+                f"KURULUM:\n"
+                f"1. Komut istemini (CMD) yönetici olarak açın\n"
+                f"2. Şu komutu çalıştırın:\n\n"
+                f"   pip install torch torchvision pillow\n\n"
+                f"3. Uygulamayı yeniden başlatın\n\n"
+                f"Not: GPU desteği için https://pytorch.org adresinden\n"
+                f"uygun versiyonu seçebilirsiniz.\n\n"
+                f"Şu an sadece Simülasyon Modu kullanılabilir."
             )
+            print(f"❌ ML Import Error: {e}")
             print(error_msg)
 
-            QMessageBox.critical(
-                self,
-                "❌ ML Sistemi Hatası",
-                error_msg,
-                QMessageBox.Ok
-            )
+            msg_box = QMessageBox(self)
+            msg_box.setIcon(QMessageBox.Warning)
+            msg_box.setWindowTitle("ML Framework Gerekli")
+            msg_box.setText("PyTorch yüklü değil")
+            msg_box.setInformativeText(error_msg)
+            msg_box.setStandardButtons(QMessageBox.Ok)
+            msg_box.exec()
 
             # Disable camera mode
             mode_index = self.mode_selector.findData(ScanMode.CAMERA)
             if mode_index >= 0:
                 self.mode_selector.model().item(mode_index).setEnabled(False)
 
-            self.statusBar().showMessage("❌ ML sistemi yüklenemedi - PyTorch gerekli")
+            self.statusBar().showMessage("⚠ Sadece Simülasyon Modu - PyTorch kurulumu gerekli")
 
         except Exception as e:
             self.ml_available = False
-            error_msg = f"❌ ML pipeline başlatılamadı: {str(e)}"
-            print(error_msg)
-
-            QMessageBox.warning(
-                self,
-                "⚠️ ML Sistemi Uyarısı",
-                f"{error_msg}\n\nKamera modu devre dışı bırakıldı.",
-                QMessageBox.Ok
+            error_msg = (
+                f"ML Sistemi Başlatma Hatası\n\n"
+                f"Hata detayı: {str(e)}\n\n"
+                f"Olası çözümler:\n"
+                f"1. PyTorch kurulumunu kontrol edin\n"
+                f"2. GPU sürücülerini güncelleyin (CUDA kullanıyorsanız)\n"
+                f"3. Uygulamayı yeniden başlatın\n\n"
+                f"Şu an sadece Simülasyon Modu kullanılabilir."
             )
+            print(f"❌ ML Pipeline Error: {e}")
+
+            msg_box = QMessageBox(self)
+            msg_box.setIcon(QMessageBox.Critical)
+            msg_box.setWindowTitle("ML Sistemi Hatası")
+            msg_box.setText("ML Pipeline başlatılamadı")
+            msg_box.setInformativeText(error_msg)
+            msg_box.setStandardButtons(QMessageBox.Ok)
+            msg_box.exec()
 
             # Disable camera mode
             mode_index = self.mode_selector.findData(ScanMode.CAMERA)
             if mode_index >= 0:
                 self.mode_selector.model().item(mode_index).setEnabled(False)
 
-            self.statusBar().showMessage("⚠️ ML sistemi kullanılamıyor")
+            self.statusBar().showMessage("⚠ Sadece Simülasyon Modu - ML sistemi yüklenemedi")
 
     def test_camera(self):
         """Test camera access and show results."""
@@ -657,7 +701,7 @@ class MainWindow(QMainWindow):
             return
 
         self.system_state = SystemState.SCANNING_CAMERA
-        self.metric_status.set_value("KAMERA + ML")
+        self.metric_status.set_value("BAŞLATILIYOR...")
 
         # Update camera status
         self.camera_status_label.setText("Kamera Açılıyor...")
@@ -685,11 +729,15 @@ class MainWindow(QMainWindow):
         self.camera_manager.scanning_progress.connect(self.update_scanning)
         self.camera_manager.scan_complete.connect(self.scan_finished)
         self.camera_manager.camera_opened.connect(self.on_camera_opened)
+        self.camera_manager.stats_update.connect(self.update_stats)
 
         # Start
         self.camera_manager.start()
         self.calibration_bar.setValue(100)  # No calibration in camera mode
-        self.statusBar().showMessage("KAMERA: Canlı tarama devam ediyor...")
+
+        # Don't show optimistic message - wait for actual camera status
+        # Status updated by on_camera_opened() callback
+        QTimer.singleShot(100, self._verify_camera_started)
 
     def on_camera_opened(self, success):
         """Handle camera open success/failure."""
@@ -703,6 +751,8 @@ class MainWindow(QMainWindow):
                 font-size: 8pt;
                 font-weight: bold;
             """)
+            # Update status to show active scanning
+            self.metric_status.set_value("TARAMA")
             self.camera_permission_denied = False
             self.camera_warning_label.setVisible(False)
         else:
@@ -715,11 +765,19 @@ class MainWindow(QMainWindow):
                 font-size: 8pt;
                 font-weight: bold;
             """)
+            # Update status to show error
+            self.metric_status.set_value("HATA")
             self.camera_permission_denied = True
             self.camera_warning_label.setVisible(True)
 
             # Disable start button until issue is resolved
             self.start_button.setEnabled(False)
+
+    def _verify_camera_started(self):
+        """Verify camera started successfully (prevents race condition)."""
+        if self.is_scanning and self.current_mode == ScanMode.CAMERA:
+            if not self.camera_permission_denied:
+                self.statusBar().showMessage("KAMERA: Canlı tarama devam ediyor...")
 
     def stop_scan(self):
         """Stop current scan."""
@@ -758,6 +816,8 @@ class MainWindow(QMainWindow):
 
     def handle_camera_error(self, error_message):
         """Handle camera errors with dialog."""
+        # Cancel scanning state immediately
+        self.is_scanning = False
         self.statusBar().showMessage(f"❌ KAMERA HATASI")
         self.camera_view.setText(f"KAMERA HATASI\n\n{error_message}")
 
@@ -858,11 +918,18 @@ class MainWindow(QMainWindow):
                 QTimer.singleShot(500, lambda i=item, bg=original_bg: i.setBackground(bg))
 
     def update_stats(self, stats):
-        """Update statistics metrics (simulation mode)."""
+        """Update statistics metrics (both simulation and camera modes)."""
         self.scanned_yards = stats['scanned_yards']
         self.metric_scanned.set_value(f"{stats['scanned_yards']:.1f}")
         self.metric_defects.set_value(str(stats['defects_found']))
         self.metric_efficiency.set_value(str(stats['efficiency']))
+
+        # Update system status during scan
+        if self.is_scanning:
+            if self.current_mode == ScanMode.SIMULATION:
+                self.metric_status.set_value("SİMÜLASYON")
+            else:
+                self.metric_status.set_value("TARAMA")
 
     def scan_finished(self):
         """Handle scan completion."""

@@ -1,186 +1,303 @@
 """
-Dark industrial theme for Open Textile Intelligence desktop application.
+Windows 11 Modern Dark Theme for Open Textile Intelligence.
+Clean, minimal, professional design with proper spacing and typography.
 """
 
+# Windows 11 inspired modern dark theme
 DARK_THEME = """
 QMainWindow {
-    background-color: #1a1a1a;
+    background-color: #202020;
 }
 
 QWidget {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #202020;
+    color: #ffffff;
+    font-family: 'Segoe UI', 'Segoe UI Variable', 'Arial', sans-serif;
     font-size: 10pt;
 }
 
-/* Metric Cards */
+/* Metric Cards - Windows 11 Style */
 QFrame#metricCard {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                                stop:0 #2d3e50, stop:1 #34495e);
-    border-radius: 8px;
-    border: 1px solid #34495e;
-    padding: 15px;
-    margin: 5px;
+    background-color: #2b2b2b;
+    border-radius: 12px;
+    border: 1px solid #3a3a3a;
+    padding: 0px;
+    margin: 0px;
+}
+
+QFrame#metricCard:hover {
+    background-color: #303030;
+    border: 1px solid #404040;
 }
 
 QLabel#metricTitle {
-    color: #95a5a6;
+    color: #a0a0a0;
     font-size: 9pt;
-    font-weight: bold;
+    font-weight: 600;
+    padding: 0px;
+    margin: 0px;
 }
 
 QLabel#metricValue {
-    color: #ecf0f1;
-    font-size: 24pt;
-    font-weight: bold;
+    color: #ffffff;
+    font-size: 32pt;
+    font-weight: 600;
+    padding: 0px;
+    margin: 0px;
 }
 
-QLabel#metricDelta {
-    color: #27ae60;
-    font-size: 9pt;
+QLabel#metricUnit {
+    color: #909090;
+    font-size: 11pt;
+    font-weight: 400;
+    padding: 0px;
+    margin: 0px;
 }
 
-/* Table */
+/* Table - Modern flat design */
 QTableWidget {
-    background-color: #2c2c2c;
-    alternate-background-color: #323232;
-    color: #e0e0e0;
-    gridline-color: #404040;
-    border: 1px solid #404040;
-    border-radius: 4px;
-    selection-background-color: #3498db;
+    background-color: #2b2b2b;
+    alternate-background-color: #282828;
+    color: #ffffff;
+    gridline-color: #3a3a3a;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    selection-background-color: #0067c0;
 }
 
 QTableWidget::item {
-    padding: 8px;
+    padding: 12px 16px;
+    border: none;
 }
 
 QTableWidget::item:selected {
-    background-color: #3498db;
+    background-color: #0067c0;
     color: white;
 }
 
 QHeaderView::section {
-    background-color: #34495e;
-    color: #ecf0f1;
-    padding: 10px;
+    background-color: #252525;
+    color: #ffffff;
+    padding: 12px 16px;
     border: none;
-    font-weight: bold;
+    border-bottom: 1px solid #3a3a3a;
+    font-weight: 600;
     font-size: 10pt;
 }
 
-/* Progress Bars */
+/* Progress Bars - Windows 11 style */
 QProgressBar {
-    border: 1px solid #404040;
-    border-radius: 4px;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
     text-align: center;
-    background-color: #2c2c2c;
-    color: #e0e0e0;
-    height: 25px;
+    background-color: #2b2b2b;
+    color: #ffffff;
+    height: 28px;
+    font-size: 9pt;
+    font-weight: 600;
 }
 
 QProgressBar::chunk {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                                stop:0 #3498db, stop:1 #2980b9);
-    border-radius: 3px;
+    background-color: #0067c0;
+    border-radius: 5px;
 }
 
 QProgressBar#calibrationBar::chunk {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                                stop:0 #27ae60, stop:1 #229954);
+    background-color: #0f7b0f;
 }
 
 QProgressBar#scanningBar::chunk {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
-                                stop:0 #3498db, stop:1 #2874a6);
+    background-color: #0067c0;
 }
 
-/* Labels */
+/* Section Labels */
 QLabel#sectionTitle {
-    color: #3498db;
-    font-size: 12pt;
-    font-weight: bold;
-    padding: 10px 0px;
+    color: #ffffff;
+    font-size: 14pt;
+    font-weight: 600;
+    padding: 8px 0px;
 }
 
 QLabel#statusLabel {
-    color: #95a5a6;
+    color: #a0a0a0;
     font-size: 9pt;
-    padding: 5px;
+    padding: 6px 12px;
+    background-color: #2b2b2b;
+    border-radius: 6px;
 }
 
-/* Buttons */
+/* Buttons - Windows 11 Accent Style */
 QPushButton {
-    background-color: #3498db;
+    background-color: #0067c0;
     color: white;
     border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
+    border-radius: 6px;
+    padding: 10px 24px;
     font-size: 10pt;
-    font-weight: bold;
+    font-weight: 600;
+    min-height: 36px;
 }
 
 QPushButton:hover {
-    background-color: #2980b9;
+    background-color: #005ba1;
 }
 
 QPushButton:pressed {
-    background-color: #21618c;
+    background-color: #004a7f;
 }
 
 QPushButton:disabled {
-    background-color: #7f8c8d;
-    color: #bdc3c7;
+    background-color: #3a3a3a;
+    color: #707070;
 }
 
 QPushButton#startButton {
-    background-color: #27ae60;
+    background-color: #0f7b0f;
 }
 
 QPushButton#startButton:hover {
-    background-color: #229954;
+    background-color: #0d6b0d;
+}
+
+QPushButton#startButton:pressed {
+    background-color: #0a5a0a;
 }
 
 QPushButton#stopButton {
-    background-color: #e74c3c;
+    background-color: #d13438;
 }
 
 QPushButton#stopButton:hover {
-    background-color: #c0392b;
+    background-color: #b52e31;
 }
 
-/* Scrollbar */
+QPushButton#stopButton:pressed {
+    background-color: #9a272a;
+}
+
+QPushButton#testCameraButton {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border: 1px solid #3a3a3a;
+}
+
+QPushButton#testCameraButton:hover {
+    background-color: #353535;
+}
+
+/* Combo Box - Modern dropdown */
+QComboBox {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 10pt;
+    min-height: 32px;
+}
+
+QComboBox:hover {
+    border: 1px solid #505050;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 30px;
+}
+
+QComboBox::down-arrow {
+    image: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #a0a0a0;
+    margin-right: 8px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    selection-background-color: #0067c0;
+    padding: 4px;
+}
+
+/* Slider - Modern minimal */
+QSlider::groove:horizontal {
+    background: #2b2b2b;
+    height: 6px;
+    border-radius: 3px;
+    border: 1px solid #3a3a3a;
+}
+
+QSlider::handle:horizontal {
+    background: #0067c0;
+    width: 18px;
+    height: 18px;
+    margin: -7px 0;
+    border-radius: 9px;
+}
+
+QSlider::handle:horizontal:hover {
+    background: #005ba1;
+}
+
+/* Scrollbar - Minimal modern design */
 QScrollBar:vertical {
-    background-color: #2c2c2c;
+    background-color: #202020;
     width: 12px;
     border: none;
+    margin: 0px;
 }
 
 QScrollBar::handle:vertical {
-    background-color: #555555;
+    background-color: #505050;
     border-radius: 6px;
-    min-height: 20px;
+    min-height: 30px;
 }
 
 QScrollBar::handle:vertical:hover {
-    background-color: #666666;
+    background-color: #606060;
 }
 
 QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
     height: 0px;
 }
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+}
+
+/* Status Bar */
+QStatusBar {
+    background-color: #252525;
+    color: #ffffff;
+    border-top: 1px solid #3a3a3a;
+    font-size: 9pt;
+}
+
+/* Splitter */
+QSplitter::handle {
+    background-color: #3a3a3a;
+}
+
+QSplitter::handle:hover {
+    background-color: #505050;
+}
 """
 
-# Color codes for defect severity
+# Color codes for defect severity (Windows 11 semantic colors)
 DEFECT_COLORS = {
-    "Delik": "#e74c3c",              # Critical - Red
-    "İplik Kopması": "#e74c3c",      # Critical - Red
-    "Leke": "#f39c12",               # Warning - Orange
-    "Renk Uyuşmazlığı": "#f1c40f",   # Warning - Yellow
-    "Dokuma Hatası": "#e67e22",      # Medium - Orange
+    "Delik": "#d13438",              # Critical - Red
+    "İplik Kopması": "#d13438",      # Critical - Red
+    "Yırtık": "#d13438",             # Critical - Red
+    "Leke": "#f7630c",               # Warning - Orange
+    "Renk Uyuşmazlığı": "#ffc83d",   # Caution - Yellow
+    "Renk Uyumsuzluğu": "#ffc83d",   # Caution - Yellow
+    "Dokuma Hatası": "#f7630c",      # Medium - Orange
+    "Temiz": "#0f7b0f",              # Success - Green
 }
 
 def get_defect_color(defect_type):
-    """Return color code for defect type."""
-    return DEFECT_COLORS.get(defect_type, "#95a5a6")
+    """Return Windows 11 semantic color for defect type."""
+    return DEFECT_COLORS.get(defect_type, "#a0a0a0")
