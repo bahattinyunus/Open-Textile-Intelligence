@@ -15,6 +15,9 @@ class FabricScanner:
         self.defects = ["Leke", "Delik", "Dokuma Hatası", "Renk Uyuşmazlığı", "İplik Kopması"]
         self.scanned_yards = 0
         self.defects_found = 0
+        self.detection_history = []  # Store all detections for UI consumption
+        self.calibration_progress = 0
+        self.scanning_progress = 0
 
     def analyze_frame(self, frame_id):
         """Simulates analyzing a single frame of fabric."""
@@ -39,8 +42,11 @@ class FabricScanner:
             task1 = progress.add_task("[green]Sensörler Kalibre Ediliyor...", total=100)
             
             # Calibration Simulation
+            calibration_complete = 0
             while not progress.finished:
-                progress.update(task1, advance(1.5))
+                progress.update(task1, advance=1.5)
+                calibration_complete += 1.5
+                self.calibration_progress = min(calibration_complete, 100)
                 time.sleep(0.02)
                 
             task2 = progress.add_task("[bold blue]Kumaş Rulosu Taranıyor...", total=duration_seconds*10)
@@ -58,26 +64,39 @@ class FabricScanner:
                 frame_id = f"FR-{random.randint(10000, 99999)}"
                 result = self.analyze_frame(frame_id)
                 self.scanned_yards += 0.5
-                
+
                 status_icon = "✅ TAMAM"
                 defect_info = "-"
                 conf_str = "-"
-                
+
+                # Store detection data for UI
+                detection_record = {
+                    "timestamp": time.strftime("%H:%M:%S"),
+                    "frame_id": frame_id,
+                    "is_defective": result["detected"],
+                    "status": "KUSUR" if result["detected"] else "TAMAM",
+                    "defect_type": result.get("type", "-"),
+                    "confidence": result.get("confidence", 0)
+                }
+                self.detection_history.append(detection_record)
+
                 if result["detected"]:
                     self.defects_found += 1
                     status_icon = "⚠️ KUSUR"
                     defect_info = result["type"]
                     conf_str = f"{result['confidence']:.1%}"
-                    
+
                     table.add_row(
-                        time.strftime("%H:%M:%S"), 
-                        frame_id, 
-                        status_icon, 
-                        defect_info, 
+                        time.strftime("%H:%M:%S"),
+                        frame_id,
+                        status_icon,
+                        defect_info,
                         conf_str
                     )
-                    
+
                 progress.update(task2, advance=1)
+                elapsed_time = time.time() - start_time
+                self.scanning_progress = min((elapsed_time / duration_seconds) * 100, 100)
                 time.sleep(0.1)
 
             console.print(table)
