@@ -1,0 +1,65 @@
+{
+    "start_time": "Fri Dec 26 13:21:45 2025",
+    "defects": [
+        {
+            "timestamp": "13:21:48",
+            "frame_id": "FR-83381",
+            "type": "Leke",
+            "confidence": 0.9809991559020775
+        },
+        {
+            "timestamp": "13:21:49",
+            "frame_id": "FR-74158",
+            "type": "Leke",
+            "confidence": 0.8800721626784179
+        },
+        {
+            "timestamp": "13:21:49",
+            "frame_id": "FR-92143",
+            "type": "İplik Kopması",
+            "confidence": 0.9391240336435481
+        },
+        {
+            "timestamp": "13:21:49",
+            "frame_id": "FR-25804",
+            "type": "Delik",
+            "confidence": 0.8573041656217862
+        },
+        {
+            "timestamp": "13:21:50",
+            "frame_id": "FR-86010",
+            "type": "Delik",
+            "confidence": 0.9758275172376839
+        },
+        {
+            "timestamp": "13:21:50",
+            "frame_id": "FR-43767",
+            "type": "Dokuma Hatası",
+            "confidence": 0.9160221284405826
+        },
+        {
+            "timestamp": "13:21:50",
+            "frame_id": "FR-15219",
+            "type": "Leke",
+            "confidence": 0.942136934187692
+        },
+        {
+            "timestamp": "13:21:51",
+            "frame_id": "FR-74619",
+            "type": "Delik",
+            "confidence": 0.8640988083777802
+        },
+        {
+            "timestamp": "13:21:52",
+            "frame_id": "FR-16509",
+            "type": "Dokuma Hatası",
+            "confidence": 0.9473735972777417
+        }
+    ],
+    "summary": {
+        "total_scanned_yards": 23.5,
+        "total_defects": 9,
+        "efficiency_score": 82,
+        "end_time": "Fri Dec 26 13:21:52 2025"
+    }
+}
