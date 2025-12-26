@@ -1,0 +1,3 @@
+rich
+numpy
+# scikit-image  # Uncomment when image processing back-end is active
