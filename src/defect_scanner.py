@@ -12,7 +12,7 @@ console = Console()
 
 class FabricScanner:
     def __init__(self):
-        self.defects = ["Stain", "Hole", "Weave Error", "Color Mismatch", "Thread Break"]
+        self.defects = ["Leke", "Delik", "Dokuma Hatası", "Renk Uyuşmazlığı", "İplik Kopması"]
         self.scanned_yards = 0
         self.defects_found = 0
 
@@ -27,7 +27,7 @@ class FabricScanner:
         return {"detected": False}
 
     def run_simulation(self, duration_seconds=10):
-        console.print(Panel.fit("[bold cyan]Open Textile Intelligence[/bold cyan]\n[dim]Elite Command Center - Defect Detection Module[/dim]", border_style="cyan"))
+        console.print(Panel.fit("[bold cyan]Open Textile Intelligence[/bold cyan]\n[dim]Elit Komuta Merkezi - Kusur Tespit Modülü[/dim]", border_style="cyan"))
         
         with Progress(
             SpinnerColumn(),
@@ -36,21 +36,21 @@ class FabricScanner:
             TaskProgressColumn(),
             console=console
         ) as progress:
-            task1 = progress.add_task("[green]Calibrating Sensors...", total=100)
+            task1 = progress.add_task("[green]Sensörler Kalibre Ediliyor...", total=100)
             
             # Calibration Simulation
             while not progress.finished:
                 progress.update(task1, advance(1.5))
                 time.sleep(0.02)
                 
-            task2 = progress.add_task("[bold blue]Scanning Fabric Roll...", total=duration_seconds*10)
+            task2 = progress.add_task("[bold blue]Kumaş Rulosu Taranıyor...", total=duration_seconds*10)
 
-            table = Table(title="Live Detection Feed", show_header=True, header_style="bold magenta")
-            table.add_column("Time", style="dim", width=12)
-            table.add_column("Frame ID", justify="right")
-            table.add_column("Status", justify="center")
-            table.add_column("Defect Type", style="red")
-            table.add_column("Confidence", justify="right")
+            table = Table(title="Canlı Tespit Akışı", show_header=True, header_style="bold magenta")
+            table.add_column("Zaman", style="dim", width=12)
+            table.add_column("Kare NO", justify="right")
+            table.add_column("Durum", justify="center")
+            table.add_column("Kusur Tipi", style="red")
+            table.add_column("Güven", justify="right")
 
             start_time = time.time()
             
@@ -59,13 +59,13 @@ class FabricScanner:
                 result = self.analyze_frame(frame_id)
                 self.scanned_yards += 0.5
                 
-                status_icon = "✅ OK"
+                status_icon = "✅ TAMAM"
                 defect_info = "-"
                 conf_str = "-"
                 
                 if result["detected"]:
                     self.defects_found += 1
-                    status_icon = "⚠️ DEFECT"
+                    status_icon = "⚠️ KUSUR"
                     defect_info = result["type"]
                     conf_str = f"{result['confidence']:.1%}"
                     
@@ -83,11 +83,11 @@ class FabricScanner:
             console.print(table)
             
             summary = Panel(
-                f"[bold]Simulation Complete[/bold]\n"
-                f"Total Scanned: [cyan]{self.scanned_yards:.1f} yards[/cyan]\n"
-                f"Defects Found: [red]{self.defects_found}[/red]\n"
-                f"Efficiency Rating: [green]{max(100 - (self.defects_found * 2), 0)}%[/green]",
-                title="Analysis Report",
+                f"[bold]Simülasyon Tamamlandı[/bold]\n"
+                f"Toplam Taranan: [cyan]{self.scanned_yards:.1f} yarda[/cyan]\n"
+                f"Bulunan Kusurlar: [red]{self.defects_found}[/red]\n"
+                f"Verimlilik Oranı: [green]{max(100 - (self.defects_found * 2), 0)}%[/green]",
+                title="Analiz Raporu",
                 border_style="green"
             )
             console.print(summary)
@@ -100,4 +100,4 @@ if __name__ == "__main__":
         scanner = FabricScanner()
         scanner.run_simulation()
     except KeyboardInterrupt:
-        console.print("[bold red]System Halted by User[/bold red]")
+        console.print("[bold red]Sistem Kullanıcı Tarafından Durduruldu[/bold red]")
