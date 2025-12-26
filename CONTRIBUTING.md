@@ -1,29 +1,29 @@
-# Contributing to Open Textile Intelligence
+# Open Textile Intelligence'a Katkıda Bulunun
 
-First off, thanks for taking the time to contribute!
+Öncelikle, katkıda bulunmak için zaman ayırdığınız için teşekkürler!
 
-The following is a set of guidelines for contributing to Open Textile Intelligence. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+Aşağıdakiler Open Textile Intelligence'a katkıda bulunmak için hazırlanan yönergelerdir. Bunlar kural değil, çoğunlukla birer rehber niteliğindedir. En iyi kararınızı verin ve bu belgede değişiklik önermekten çekinmeyin.
 
-## How to Contribute
+## Nasıl Katkıda Bulunulur?
 
-1.  **Fork the repository**.
-2.  **Create a new branch** (`git checkout -b feature/AmazingFeature`).
-3.  **Make your changes**.
-4.  **Commit your changes** (`git commit -m 'Add some AmazingFeature'`).
-5.  **Push to the branch** (`git push origin feature/AmazingFeature`).
-6.  **Open a Pull Request**.
+1.  **Depoyu Forklayın** (Çatallayın).
+2.  **Yeni bir dal (branch) oluşturun** (`git checkout -b ozellik/HarikaOzellik`).
+3.  **Değişikliklerinizi yapın**.
+4.  **Değişikliklerinizi commit edin** (`git commit -m 'Biraz HarikaOzellik ekle'`).
+5.  **Dala (branch) pushlayın** (`git push origin ozellik/HarikaOzellik`).
+6.  **Bir Pull Request (Çekme İsteği) Açın**.
 
-## Code Style
+## Kod Stili
 
--   Follow standard Python PEP 8 guidelines.
--   Ensure your code is well-documented.
--   Write clear, concise commit messages.
+-   Standart Python PEP 8 yönergelerini takip edin.
+-   Kodunuzun iyi belgelendiğinden emin olun.
+-   Açık ve öz commit mesajları yazın.
 
-## Reporting Bugs
+## Hata Raporlama
 
-This section guides you through submitting a bug report.
--   Use a clear and descriptive title for the issue to identify the problem.
--   Describe the exact steps which reproduce the problem in as many details as possible.
--   Describe the behavior you observed after following the steps.
+Bu bölüm, bir hata raporu gönderirken size rehberlik eder.
+-   Sorunu tanımlamak için açık ve açıklayıcı bir başlık kullanın.
+-   Sorunu yeniden üreten adımları mümkün olduğunca detaylı açıklayın.
+-   Adımları izledikten sonra gözlemlediğiniz davranışı açıklayın.
 
-Thank you for contributing!
+Katkılarınız için teşekkür ederiz!
